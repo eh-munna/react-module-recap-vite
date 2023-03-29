@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import Country from './components/Country/Country';
 
-const elements = [
+/* const elements = [
   { id: 1, product: 'laptop' },
   { id: 2, product: 'mobile' },
   { id: 3, product: 'tab' },
   { id: 4, product: 'monitor' },
   { id: 5, product: 'mouse' },
   { id: 6, product: 'keyboard' },
-];
+]; */
 
-const testArr = [1, 4, 5, 6, 5, 8];
+// const testArr = [1, 4, 5, 6, 5, 8];
 
 function App() {
   // jsx code
@@ -25,8 +26,9 @@ function App() {
       ))} */}
 
       {/* state in practice */}
-      <PracticeState></PracticeState>
-      <PracticeEffect></PracticeEffect>
+      {/* <PracticeState></PracticeState>
+      <PracticeEffect></PracticeEffect> */}
+      <Countries></Countries>
     </div>
   );
 }
@@ -54,7 +56,7 @@ const Test = () => {
 
 // Usage of State
 
-const PracticeState = () => {
+/* const PracticeState = () => {
   const [count, setCount] = useState(0);
   const change = () => setCount(count + 1);
   return (
@@ -94,6 +96,25 @@ const User = ({ user }) => {
   return (
     <div>
       <h5>Name: {user.name}</h5>
+    </div>
+  );
+}; */
+
+const Countries = () => {
+  const [countries, setCountries] = useState([]);
+  useEffect(() => {
+    const startFetching = async () => {
+      const res = await fetch(`https://restcountries.com/v3.1/all`);
+      const data = await res.json();
+      setCountries(data);
+    };
+    startFetching();
+  }, []);
+  return (
+    <div className="grid grid-cols-3 gap-3 p-3">
+      {countries.map((country) => (
+        <Country key={country.cca2} country={country} />
+      ))}
     </div>
   );
 };
